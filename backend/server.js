@@ -1,6 +1,7 @@
 import "dotenv/config";
 import express from "express"
 import cors from "cors"
+import authRoutes from"./routes/auth.js"
 
 
 const app=express();
@@ -10,8 +11,8 @@ const allowedOrigins =(process.env.CLIENT_URL ||"")
 .map((s)=> s.trim())
 .filter(Boolean);
 
-const corsOptions = {
-origin(origin, cb) {
+const corsOptions = {  
+origin(origin, cb) { 
 // Allow requests with no origin (curl, same-origin, server-to-server)
 if (!origin) return cb(null, true);
 // Allow any localhost / 127.0.0.1 origin in development
