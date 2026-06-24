@@ -1,9 +1,11 @@
 import "dotenv/config";
 import express from "express"
 import cors from "cors"
-import authRoutes from"./routes/auth.js"
-import {notFound,errorHandler} from"./middleware/errorHandler.js"
 import {connectDB} from "./config/db.js"
+import authRoutes from"./routes/auth.js"
+import habitRoutes from"./routes/habit.js"
+import logRoutes from "./routes/logs.js"
+import {notFound,errorHandler} from"./middleware/errorHandler.js"
 
 const app=express();
 
@@ -12,8 +14,8 @@ const allowedOrigins =(process.env.CLIENT_URL ||"")
 .map((s)=> s.trim())
 .filter(Boolean);
 
-const corsOptions = {  
-origin(origin, cb) { 
+const corsOptions = {
+origin(origin, cb) {
 // Allow requests with no origin (curl, same-origin, server-to-server)
 if (!origin) return cb(null, true);
 // Allow any localhost / 127.0.0.1 origin in development
@@ -39,6 +41,8 @@ app.get("/api/health", (req,res)=>{
 });
 
 app.use("/api/auth",authRoutes)
+app.use("/api/habits",habitRoutes)
+app.use("/api/logs",logRoutes)
 
 app.use(notFound)
 app.use(errorHandler)
